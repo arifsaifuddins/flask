@@ -1,5 +1,7 @@
+from enum import unique
 from flask import Flask, flash, make_response, redirect, render_template, url_for, session, request
 import os
+from sqlalchemy.sql import func
 
 # file upload
 from werkzeug.utils import secure_filename
@@ -8,9 +10,112 @@ import time
 # sql
 from flask_sqlalchemy import SQLAlchemy
 
+
 app = Flask(__name__)
 # key for set session
 app.secret_key = 'secretkeygenerated'
+
+
+# sql config
+dirname = os.path.abspath(os.path.dirname(__file__))
+uri = 'sqlite:///' + os.path.join(dirname, 'db.sqlite')
+app.config['SQLALCHEMY_DATABASE_URI'] = uri
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+
+
+class Student(db.Model):
+
+  # create schema / table
+  id = db.Column(db.Integer, primary_key=True)
+  firstname = db.Column(db.String(100))
+  lastname = db.Column(db.String(100))
+  email = db.Column(db.String(80), unique=True)
+  age = db.Column(db.Integer)
+  created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
+  bio = db.Column(db.Text)
+
+  # to inputting
+  def __init__(self, firstname, lastname, email, age, bio):
+    self.firstname = firstname
+    self.lastname = lastname
+    self.email = email
+    self.age = age
+    self.bio = bio
+
+
+# create table
+db.create_all()
+
+
+john = Student(
+    firstname='john',
+    lastname='doe',
+    email='emil@example.com',
+    age=23,
+    bio='Biology student'
+)
+
+aji = Student(
+    firstname='aji',
+    lastname='saif',
+    email='aji@mail.com',
+    age=22,
+    bio='Islamic student'
+)
+
+muhammad = Student(
+    firstname='muhammad',
+    lastname='saif',
+    email='muhammad@mail.com',
+    age=22,
+    bio='Islamic student'
+)
+
+arief = Student(
+    firstname='arief',
+    lastname='saif',
+    email='arief@mail.com',
+    age=22,
+    bio='Islamic student'
+)
+
+
+# # input row (create)
+# db.session.add(john)
+# db.session.add(muhammad)
+# db.session.commit()
+
+
+# get all (read)
+students = Student.query.all()
+for student in students:
+  print(student.firstname)
+
+
+# get one
+student_one = Student.query.get_or_404(1)
+print(student_one.firstname)
+
+
+# update (update)
+update_std = Student.query.get_or_404(2)
+update_std.firstname = 'jamal'
+update_std.lastname = 'udin'
+update_std.email = 'jamal@mail.com'
+update_std.age = 21
+update_std.bio = 'kpk'
+
+db.session.add(update_std)
+db.session.commit()
+
+
+# delete (delete)
+del_std = Student.query.get_or_404(1)
+
+db.session.delete(del_std)
+db.session.commit()
 
 
 # basic route
@@ -31,7 +136,8 @@ def home_page():
 @app.route("/about/<name>", methods=["GET"])
 def about_page(name):
 
-  return render_template('about.jinja', data=f'This is an about page of {name}')
+  return render_template(
+      'about.jinja', data=f'This is an about page of {name}')
 
 
 # use query url
