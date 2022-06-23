@@ -94,9 +94,9 @@ for student in students:
   print(student.firstname)
 
 
-# get one
-student_one = Student.query.get_or_404(1)
-print(student_one.firstname)
+# # get one
+# student_one = Student.query.get_or_404(1)
+# print(student_one.firstname)
 
 
 # update (update)
@@ -111,11 +111,11 @@ db.session.add(update_std)
 db.session.commit()
 
 
-# delete (delete)
-del_std = Student.query.get_or_404(1)
+# # delete (delete)
+# del_std = Student.query.get_or_404(1)
 
-db.session.delete(del_std)
-db.session.commit()
+# db.session.delete(del_std)
+# db.session.commit()
 
 
 # basic route
