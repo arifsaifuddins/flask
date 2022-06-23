@@ -1,0 +1,13 @@
+{% extends '/layout/base.jinja' %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+{% if not data %}
+<h2>Contact page</h2>
+{% elif data %}
+<h2>iam {{ data[0] }}, and i {{ data[1] }} years old</h2>
+{% endif %}
+{% endblock %}

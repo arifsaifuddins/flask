@@ -1,0 +1,27 @@
+{% extends '/layout/base.jinja' %}
+
+{% block title %}
+About
+{% endblock %}
+
+{% block content %}
+
+<!-- flash message -->
+{% with message = get_flashed_messages()  %}
+{% if message %}
+{% for msg in message %}
+<h3>{{ msg }}</h3>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<hr>
+
+{% if not data %}
+<h2>About page</h2>
+{% elif data %}
+<h2>{{ data }}</h2>
+{% endif %}
+
+<a href="{{ url_for('logout_page') }}">logout</a>
+{% endblock %}

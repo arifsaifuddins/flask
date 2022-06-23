@@ -1,0 +1,12 @@
+{% extends '/layout/base.jinja' %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+<h1>home</h1>
+{% if data %}
+<p>{{ data[1][2] }}</p>
+{% endif %}
+{% endblock %}
