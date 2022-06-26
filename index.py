@@ -1,4 +1,3 @@
-from enum import unique
 from flask import Flask, flash, make_response, redirect, render_template, url_for, session, request
 import os
 from sqlalchemy.sql import func
@@ -10,6 +9,8 @@ import time
 # sql
 from flask_sqlalchemy import SQLAlchemy
 
+# cors
+from flask_cors import CORS
 
 app = Flask(__name__)
 # key for set session
@@ -23,6 +24,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = uri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
+
+CORS(app)
 
 
 class Student(db.Model):
