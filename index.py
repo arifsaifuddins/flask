@@ -140,14 +140,16 @@ def home_page():
 def about_page(name):
 
   return render_template(
-      'about.jinja', data=f'This is an about page of {name}')
+      'about.jinja',
+      data=f'This is an about page of {name}'
+  )
 
 
 # use query url
 @app.route('/contact', methods=['GET'])
 def contact_page():
   name = request.args.get('name')
-  age = request.args.get('age')
+  age = request.args['age']
 
   if not name and not age:
     return render_template('contact.jinja')
@@ -187,7 +189,7 @@ def form_page():
 
 # error page handler
 @app.errorhandler(404)
-def error_page():
+def error_page(e):
   return render_template('404.jinja'), 404
 
 
