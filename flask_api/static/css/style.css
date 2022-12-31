@@ -1,0 +1,10 @@
+body {
+  background-color: #111;
+  color: gainsboro;
+  display: flex;
+  height: 100vh;
+}
+
+h1 {
+  margin: auto;
+}
